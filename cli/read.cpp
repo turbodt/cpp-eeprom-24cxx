@@ -41,9 +41,6 @@ public:
     eeprom->bind(this->get_i2c_bus().c_str(), this->get_device_address());
     auto from = this->get_from(eeprom);
     auto length = this->get_length(eeprom);
-
-    std::cerr << "Reading from " << from << " a total of " << length
-              << " bytes." << std::endl;
     std::cout << eeprom->read_str(from, length) << std::flush;
     delete eeprom;
     return 0;
