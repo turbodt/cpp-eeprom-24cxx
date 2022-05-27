@@ -58,7 +58,7 @@ EepromAT24CXX::go_to(std::uint16_t const file_address) const {
   } else if (this->get_features()->file_addr_bytes == 2) {
     // effectivelly, writes two bytes
     i2c_smbus_write_byte_data(this->file_descriptor,
-                              (uint8_t)(0xFF00 & file_address) >> 8,
+                              (uint8_t)((0xFF00 & file_address) >> 8),
                               (uint8_t)(0x00FF & file_address));
   } else {
     throw UnexpectedPropertyValueException(
@@ -126,7 +126,7 @@ EepromAT24CXX const *EepromAT24CXX::write_byte(std::uint16_t const file_address,
   } else if (this->get_features()->file_addr_bytes == 2) {
     // effectivelly, writes three bytes
     i2c_smbus_write_word_data(
-        this->file_descriptor, (uint8_t)(0xFF00 & file_address) >> 8,
+        this->file_descriptor, (uint8_t)((0xFF00 & file_address) >> 8),
         (uint16_t)((0x00FF & file_address) << 8) + (uint16_t)value);
   } else {
     throw UnexpectedPropertyValueException(
@@ -171,7 +171,7 @@ EepromAT24CXX const *EepromAT24CXX::write(std::uint16_t const file_address,
   if (this->get_features()->file_addr_bytes == 1) {
     *(new_data) = (uint8_t)(file_address);
   } else if (this->get_features()->file_addr_bytes == 2) {
-    *(new_data) = (uint8_t)(0xFF00 & file_address) >> 8;
+    *(new_data) = (uint8_t)((0xFF00 & file_address) >> 8);
     *(new_data + 1) = (uint8_t)(0x00FF & file_address);
   } else {
     throw UnexpectedPropertyValueException(

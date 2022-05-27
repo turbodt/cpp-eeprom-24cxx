@@ -21,7 +21,7 @@ public:
   }
 
   int execute() const {
-    auto eeprom = new EepromAT24CXX::EepromAT24CXX(EepromAT24CXX::AT24C16);
+    auto eeprom = new EepromAT24CXX::EepromAT24CXX(this->get_device_type());
     eeprom->bind(this->get_i2c_bus().c_str(), this->get_device_address());
     eeprom->clear(this->get_value());
     return 0;
