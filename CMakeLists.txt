@@ -65,6 +65,7 @@ else()
     cli/main.cpp
     cli/clear.cpp
     cli/read.cpp
+    cli/write.cpp
   )
   target_include_directories(${CLI_NAME} PRIVATE cli/include)
   target_link_libraries(${CLI_NAME} PUBLIC ${PROJECT_NAME})

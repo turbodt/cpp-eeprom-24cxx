@@ -3,6 +3,7 @@
 #include "./commander/include/command.hpp"
 #include "./include/base-command.hpp"
 #include "./read.cpp"
+#include "./write.cpp"
 
 class MainCommand : public BaseCommand {
 public:
@@ -19,7 +20,8 @@ public:
         ->add("i2c-bus", "File to the I2C bus.\nEx: /dev/i2c-1.")
         ->add("dev-addr", "Device address.")
         ->add("read", new ReadCommand())
-        ->add("clear", new ClearCommand());
+        ->add("clear", new ClearCommand())
+        ->add("write", new WriteCommand());
   }
 };
 

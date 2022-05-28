@@ -58,6 +58,7 @@ public:
   // getters
   at24cxx_t const &get_type() const;
   Features const *get_features() const;
+  static Features const *get_features(at24cxx_t);
   std::uint16_t size() const;
   // Connect with device
   EepromAT24CXX *bind(char const *, std::uint8_t address);

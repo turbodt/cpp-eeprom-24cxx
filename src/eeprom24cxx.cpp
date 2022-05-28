@@ -8,7 +8,11 @@ EepromAT24CXX::~EepromAT24CXX() { this->unbind(); }
 
 at24cxx_t const &EepromAT24CXX::get_type() const { return this->type; }
 Features const *EepromAT24CXX::get_features() const {
-  return &(FEATURES.at(this->get_type()));
+  return EepromAT24CXX::get_features(this->get_type());
+}
+
+Features const *EepromAT24CXX::get_features(at24cxx_t type) {
+  return &(FEATURES.at(type));
 }
 
 std::uint16_t EepromAT24CXX::size() const {
