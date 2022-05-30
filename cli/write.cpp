@@ -8,12 +8,10 @@ public:
   using BaseCommand::BaseCommand;
 
   void initialize() {
-    this->set_description("This command reads the Eeprom Memory and outputs "
-                          "its content to the standard output in binary mode.")
-        ->add("[from]", "Address where to start. Defaults to 0x0000.")
-        ->add("[length]",
-              "Number of bits to show. Defaults to "
-              "the remaining quantity to the end of the device memory.");
+    this->set_description(
+            "This command reads the stdin in binary mode an writes "
+            "its content to the Eeprom.")
+        ->add("[from]", "Address where to start. Defaults to 0x0000.");
   }
 
   std::uint16_t get_from() const {
