@@ -1,9 +1,9 @@
 #include "../include/eeprom24cxx.hpp"
 #include "./clear.cpp"
-#include "./commander/include/command.hpp"
 #include "./include/base-command.hpp"
 #include "./read.cpp"
 #include "./write.cpp"
+#include "command.hpp"
 
 class MainCommand : public BaseCommand {
 public:

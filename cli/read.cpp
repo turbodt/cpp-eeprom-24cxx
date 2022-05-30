@@ -1,7 +1,7 @@
 #include "../include/eeprom24cxx.hpp"
-#include "./commander/include/command.hpp"
 #include "./include/base-command.hpp"
 #include "./include/utils.hpp"
+#include "command.hpp"
 
 class ReadCommand : public BaseCommand {
 public:

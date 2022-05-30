@@ -57,8 +57,16 @@ if (NOT CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   #message(STATUS "This project has a top-level one called [${CMAKE_PROJECT_NAME}]")
 else()
   #message(STATUS "This project is a top-level one")
+
+  include(FetchContent)
+  FetchContent_Declare(commander
+    GIT_REPOSITORY https://github.com/turbodt/cpp-commander.git
+    GIT_TAG main
+    SOURCE_DIR "${CPR_SOURCE_DIR}"
+  )
+  FetchContent_MakeAvailable(commander)
+
   set(CLI_NAME at24cxx)
-  add_subdirectory(cli/commander)
   add_executable(
     ${CLI_NAME}
     cli/utils.cpp
