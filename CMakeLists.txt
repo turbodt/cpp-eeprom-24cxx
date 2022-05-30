@@ -62,7 +62,6 @@ else()
   FetchContent_Declare(commander
     GIT_REPOSITORY https://github.com/turbodt/cpp-commander.git
     GIT_TAG main
-    SOURCE_DIR "${CPR_SOURCE_DIR}"
   )
   FetchContent_MakeAvailable(commander)
 
