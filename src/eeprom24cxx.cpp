@@ -146,9 +146,19 @@ EepromAT24CXX const *EepromAT24CXX::write(std::uint16_t const file_address,
                                           std::uint8_t const *data) const {
   this->assert_binded_device();
 
+  // Note that I2C_SMBUS_BLOCK_MAX = 32 (+1 for file address).
+  // When we try to write 32 bytes on a device with 2 bytes for file
+  //  address, it results on 2 + 32 = 1 + 33, resulting in last byte
+  //  not being sent.
+  std::uint8_t MAX_BYTES_PER_BLOCK = std::min(
+      (int)(I2C_SMBUS_BLOCK_MAX - (this->get_features()->file_addr_bytes - 1)),
+      (int)this->get_features()->bytes_per_page);
+
   // break into blocks, if any
   std::uint8_t offset = file_address % this->get_features()->bytes_per_page;
-  std::uint8_t block_length = this->get_features()->bytes_per_page - offset;
+  std::uint8_t block_length =
+      std::min((int)(this->get_features()->bytes_per_page - offset),
+               (int)MAX_BYTES_PER_BLOCK);
   if (block_length < length) {
     std::uint16_t remaining_length = length;
     std::uint16_t block_file_address = file_address;
@@ -160,10 +170,12 @@ EepromAT24CXX const *EepromAT24CXX::write(std::uint16_t const file_address,
       remaining_length -= block_length;
       block_file_address += block_length;
       block_data += block_length;
-      block_length = this->get_features()->bytes_per_page;
-      if (block_length > remaining_length) {
-        block_length = remaining_length;
-      }
+      offset = block_file_address % this->get_features()->bytes_per_page;
+
+      block_length =
+          std::min((int)(this->get_features()->bytes_per_page - offset),
+                   (int)MAX_BYTES_PER_BLOCK);
+      block_length = std::min((int)block_length, (int)remaining_length);
     }
     return this;
   }
@@ -191,10 +203,11 @@ EepromAT24CXX const *EepromAT24CXX::write(std::uint16_t const file_address,
   // perform write
   i2c_smbus_write_i2c_block_data(this->file_descriptor, *(new_data),
                                  new_data_length - 1, (new_data + 1));
-  delete[] new_data;
 
   // wait write cycle
   usleep(this->get_features()->write_cycle_time_ms * 1000);
+
+  delete[] new_data;
   return this;
 }
 
